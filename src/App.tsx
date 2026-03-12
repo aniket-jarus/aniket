@@ -4,7 +4,7 @@ import {
   GraduationCap, BookOpen, Users, Calendar, Briefcase, Phone, 
   FileText, Bell, ClipboardList, LogIn, Menu, X, ChevronRight,
   Download, Upload, CheckCircle, Clock, MapPin, Mail,
-  Moon, Sun, Bookmark, BookmarkCheck, Trash2, Plus, Shield
+  Moon, Sun, Bookmark, BookmarkCheck, Trash2, Plus, Shield, LogOut
 } from 'lucide-react';
 import React, { useEffect, useState, createContext, useContext } from 'react';
 
@@ -515,7 +515,7 @@ function Portal() {
               setIsLoading(false);
               return;
             }
-            login(trimmedUsername, 'student', selectedCourse, '6');
+            login(trimmedUsername, 'student', selectedCourse, '1');
           } else {
             setError('Invalid student credentials.');
           }
@@ -631,17 +631,24 @@ function Portal() {
               <label htmlFor="semester" className="text-sm text-gray-500 dark:text-gray-400">Semester:</label>
               <select 
                 id="semester"
-                value={user.semester || '6'}
+                value={user.semester || '1'}
                 onChange={(e) => updateCourseInfo(user.course || '', e.target.value)}
                 className="text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-1 pl-2 pr-8"
               >
-                {[6].map(sem => (
+                {[1, 2, 3, 4, 5, 6].map(sem => (
                   <option key={sem} value={sem.toString()}>Sem {sem}</option>
                 ))}
               </select>
             </div>
           </div>
         </div>
+        <button
+          onClick={logout}
+          className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm transition-colors text-sm font-medium"
+        >
+          <LogOut className="w-4 h-4" />
+          Logout
+        </button>
       </div>
 
       <Materials courseFilter={user.course} semesterFilter={user.semester} />
@@ -923,7 +930,7 @@ function Contact() {
 }
 
 function Admin() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState<'notices' | 'materials'>('notices');
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -949,6 +956,13 @@ function Admin() {
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">Manage college notices and study materials.</p>
         </div>
+        <button
+          onClick={logout}
+          className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm transition-colors text-sm font-medium"
+        >
+          <LogOut className="w-4 h-4" />
+          Logout
+        </button>
       </div>
 
       {showSuccess && (
@@ -1047,7 +1061,7 @@ function Admin() {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Semester</label>
                   <select required className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow">
                     <option value="">Select Semester</option>
-                    {[6].map(sem => (
+                    {[1, 2, 3, 4, 5, 6].map(sem => (
                       <option key={sem} value={sem.toString()}>Semester {sem}</option>
                     ))}
                   </select>
